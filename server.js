@@ -1,7 +1,6 @@
 // Import dependencies
 const express = require('express');
 const cors = require('cors');
-const dotenv = require("dotenv");
 const path = require('path');
 const bodyParser = require("body-parser");
 const passport = require("passport");
@@ -34,8 +33,6 @@ app.use(cors());
     });
 }); */
 
-//load dotenv config.
-dotenv.config();
 //connect to the db
 connectDB();
 

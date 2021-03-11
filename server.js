@@ -19,10 +19,6 @@ app.use(
   );
   app.use(express.json());
 
-// Set our backend port to be either an environment variable or port 5000
-const port = process.env.PORT || 5000;
-
-
 // Configure the bodyParser
 app.use(express.json());
 //app.use(express.urlencoded());
@@ -31,21 +27,6 @@ app.use(express.json());
 app.use(cors());
 // Require Route
 
-// This middleware informs the express application to serve our compiled React files
-if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
-    app.use(express.static(path.join(__dirname, 'client/build')));
-
-    app.get('*', function (req, res) {
-        res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-    });
-};
-
-// Catch any bad requests
-/* app.get('*', (req, res) => {
-    res.status(200).json({
-        msg: 'Catch All'
-    });
-}); */
 
 //load dotenv config.
 dotenv.config();
@@ -59,5 +40,19 @@ require("./config/passport")(passport);
 // Routes
 app.use("/api/users", users);
 
+// Serve static assets if in production
+// This middleware informs the express application to serve our compiled React files
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
+    // Set static folder
+    app.use(express.static('client/build'));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+};
+
+
+// Set our backend port to be either an environment variable or port 5000
+const port = process.env.PORT || 5000;
 // Configure our server to listen on the port defiend by our port variable
 app.listen(port, () => console.log(`BACK_END_SERVICE_PORT: ${port}`));

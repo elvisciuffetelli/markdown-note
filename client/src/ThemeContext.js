@@ -1,53 +1,51 @@
-import React, { useState, useContext, createContext, useEffect } from 'react'
-import { ThemeProvider as StyledThemeProvider } from 'styled-components'
+import React, { useState, useContext, createContext, useEffect } from "react";
+import { ThemeProvider as StyledThemeProvider } from "styled-components";
 
-import theme from './theme'
+import theme from "./theme";
 
 const defaultContextData = {
   dark: false,
-  toggle: () => {}
-}
+  toggle: () => {},
+};
 
-const ThemeContext = createContext(defaultContextData)
-const useTheme = () => useContext(ThemeContext)
-
+const ThemeContext = createContext(defaultContextData);
+const useTheme = () => useContext(ThemeContext);
 
 const ThemeProvider = ({ children }) => {
   const [themeState, setThemeState] = useState({
     dark: false,
-    hasThemeLoaded: false
-  })
-
+    hasThemeLoaded: false,
+  });
 
   useEffect(() => {
-    const isDark = localStorage.getItem('dark') === 'true'
-    setThemeState({ ...themeState, dark: isDark, hasThemeLoaded: true })
-  }, [])
+    const isDark = localStorage.getItem("dark") === "true";
+    setThemeState({ ...themeState, dark: isDark, hasThemeLoaded: true });
+  }, []);
 
   if (!themeState.hasThemeLoaded) {
-    return <div />
+    return <div />;
   }
 
   const toggle = () => {
-    const dark = !themeState.dark
-    localStorage.setItem('dark', JSON.stringify(dark))
-    setThemeState({ ...themeState, dark })
-  }
+    const dark = !themeState.dark;
+    localStorage.setItem("dark", JSON.stringify(dark));
+    setThemeState({ ...themeState, dark });
+  };
 
-  const computedTheme = themeState.dark ? theme('dark') : theme('light')
+  const computedTheme = themeState.dark ? theme("dark") : theme("light");
 
   return (
     <StyledThemeProvider theme={computedTheme}>
       <ThemeContext.Provider
         value={{
           dark: themeState.dark,
-          toggle
+          toggle,
         }}
       >
         {children}
       </ThemeContext.Provider>
     </StyledThemeProvider>
-  )
-}
+  );
+};
 
-export { ThemeProvider, useTheme }
+export { ThemeProvider, useTheme };

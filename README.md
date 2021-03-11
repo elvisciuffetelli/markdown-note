@@ -1,28 +1,28 @@
 # markdown-note
+
 ## A react / Node.js app deployed to Heroku
 
 ### Pushing updates to your production application
 
 As you continue to develop your app, you will want a way to deploy new code to production easily. Heroku makes this very straightforward.
 
-Once you add new code to your app, simply run ```npm run client:build``` from the root before you push the new code to Github (note that this is not necessary for server-side code). 
+Once you add new code to your app, simply run `npm run client:build` from the root before you push the new code to Github (note that this is not necessary for server-side code).
 Heroku will automatically rebuild your application once new code is committed to the master branch on GitHub.
 
-
-Let’s see this in action. 
-In client>src>App.js, change the hardcoded string “Hello from the frontend!” to “Here is our new feature!”. 
+Let’s see this in action.
+In client>src>App.js, change the hardcoded string “Hello from the frontend!” to “Here is our new feature!”.
 Save the file and run the following command in your terminal window:
 
-```npm run heroku-postbuild```
+`npm run client:build`
 
 This will create a new production build of your application containing the new string. Once the build as completed, stage your changes by running:
 
-```git add -A```
+`git add -A`
 
 Next, commit your changes by running:
 
-```git commit -m 'A new feature'```
+`git commit -m 'A new feature'`
 
 Finally, push your changes to GitHub by running:
 
-```git push```
+`git push`

@@ -1,7 +1,6 @@
-
-const white = '#FFFFFF'
-const black = '#161617'
-const gray = '#F8F8F9'
+const white = "#FFFFFF";
+const black = "#161617";
+const gray = "#F8F8F9";
 
 const themeLight = {
   background: gray,
@@ -10,8 +9,8 @@ const themeLight = {
   noteBodyBackground: white,
   noteBodyColor: black,
   noteBorderColor: black,
-  body: black
-}
+  body: black,
+};
 
 const themeDark = {
   background: black,
@@ -20,8 +19,8 @@ const themeDark = {
   noteBodyBackground: black,
   noteBodyColor: white,
   noteBorderColor: white,
-  body: white
-}
+  body: white,
+};
 
-const theme = mode => (mode === 'dark' ? themeDark : themeLight)
-export default theme
+const theme = (mode) => (mode === "dark" ? themeDark : themeLight);
+export default theme;

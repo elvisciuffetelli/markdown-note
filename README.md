@@ -13,7 +13,7 @@ Let’s see this in action.
 In client>src>App.js, change the hardcoded string “Hello from the frontend!” to “Here is our new feature!”. 
 Save the file and run the following command in your terminal window:
 
-npm run client:build
+```npm run client:build```
 
 This will create a new production build of your application containing the new string. Once the build as completed, stage your changes by running:
 

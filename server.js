@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const connectDB = require("./config/db");
 const users = require("./routes/api/users");
+const routes = require("./routes");
 
 dotenv.config();
 
@@ -45,6 +46,7 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 // Routes
 app.use("/api/users", users);
+app.use("/api/notes", routes);
 
 // Serve static assets if in production
 // This middleware informs the express application to serve our compiled React files

@@ -5,7 +5,7 @@ const express = require("express");
 const router = express.Router();
 
 // Import the Controller
-const controller = require("../controllers");
+const controller = require("../controllers/notes");
 
 // Create a new Note
 router.post("/", controller.create);

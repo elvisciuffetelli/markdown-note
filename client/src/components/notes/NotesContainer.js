@@ -18,29 +18,22 @@ function ViewContainer({ text }) {
   return <NotePreviewBody>{text}</NotePreviewBody>;
 }
 
-function NotesContainer({ note, idx, onDelete }) {
-  const initialState =
+function NotesContainer({ note, onDelete, handleEditNote }) {
+  const { body } = note;
+  /*   const initialState =
     window.localStorage.getItem(`note-${idx}`) ||
-    '# Hello World\n\n```javascript\nconst text="Hello"\n```';
-  const [text, setText] = useState(initialState);
+    '# Hello World\n\n```javascript\nconst text="Hello"\n```'; */
+  const [text, setText] = useState();
   const [edit, setEdit] = useState(false);
 
-  useEffect(() => {
-    window.localStorage.setItem(`note-${idx}`, text);
+  const createdAt = new Date(note.createdAt);
+  let date = createdAt.getDate();
+  let month = createdAt.getMonth() + 1;
+  const yyyy = createdAt.getFullYear();
 
-    return () => {
-      window.localStorage.removeItem(`note-${idx}`);
-    };
-  }, [text, idx]);
-
-  const createdOn = new Date(note.createdOn);
-  let date = createdOn.getDate();
-  let month = createdOn.getMonth() + 1;
-  const yyyy = createdOn.getFullYear();
-
-  let hours = createdOn.getHours();
-  const minutes = createdOn.getMinutes();
-  let seconds = createdOn.getSeconds();
+  let hours = createdAt.getHours();
+  const minutes = createdAt.getMinutes();
+  let seconds = createdAt.getSeconds();
 
   if (date < 10) {
     date = `0${date}`;
@@ -55,11 +48,16 @@ function NotesContainer({ note, idx, onDelete }) {
   hours = hours > 12 ? hours - 12 : hours < 10 ? "0" + hours : hours;
 
   const formattedDate = `${date}-${month}-${yyyy} ${hours}:${minutes}:${seconds} ${
-    createdOn.getHours() > 12 ? "PM" : "AM"
+    createdAt.getHours() > 12 ? "PM" : "AM"
   }`;
 
   const onToggle = () => {
     setEdit(!edit);
+  };
+
+  const onOkClicked = () => {
+    setEdit(!edit);
+    handleEditNote(note._id, text);
   };
 
   return (
@@ -72,7 +70,7 @@ function NotesContainer({ note, idx, onDelete }) {
               <ButtonSpan
                 role="img"
                 aria-label="preview"
-                onClick={() => onToggle()}
+                onClick={() => onOkClicked()}
               >
                 👌
               </ButtonSpan>
@@ -96,12 +94,16 @@ function NotesContainer({ note, idx, onDelete }) {
         </NoteHeader>
         {edit ? (
           <EditContainer
-            text={text}
+            text={text || body}
             onChange={(e) => setText(e.target.value)}
           />
         ) : (
           <ViewContainer
-            text={remark().use(remark2react).processSync(text).result}
+            text={
+              remark()
+                .use(remark2react)
+                .processSync(text || body).result
+            }
           />
         )}
       </Container>

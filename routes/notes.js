@@ -1,3 +1,5 @@
+var VerifyToken = require("../auth/VerifyToken");
+
 // Bring in the express server
 const express = require("express");
 
@@ -8,10 +10,10 @@ const router = express.Router();
 const controller = require("../controllers/notes");
 
 // Create a new Note
-router.post("/", controller.create);
+router.post("/", VerifyToken, controller.create);
 
 // Get all Notes
-router.get("/", controller.findAll);
+router.get("/", VerifyToken, controller.findAll);
 
 // Get Note by Id
 router.get("/:id", controller.findOne);
@@ -20,6 +22,6 @@ router.get("/:id", controller.findOne);
 router.put("/:id", controller.update);
 
 // Delete Note by Id
-router.delete("/:id", controller.delete);
+router.delete("/:id", VerifyToken, controller.delete);
 
 module.exports = router;

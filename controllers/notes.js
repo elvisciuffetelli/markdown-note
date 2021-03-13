@@ -2,7 +2,7 @@ const NotesModel = require("../models/Note");
 
 exports.findAll = async (req, res) => {
   try {
-    const notes = await NotesModel.find({user_id: req.query.userId });
+    const notes = await NotesModel.find({ user_id: req.query.userId });
     res.send(notes);
   } catch (error) {
     res.status(500).send({

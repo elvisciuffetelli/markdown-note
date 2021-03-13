@@ -1,57 +1,63 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import { useTheme } from "../../ThemeContext";
 import NotesContainer from "../notes/NotesContainer";
 import { connect } from "react-redux";
-import { getUserNotes } from "../../actions/notesActions";
+import {
+  getUserNotes,
+  postNote,
+  deleteNote,
+  editNote,
+} from "../../actions/notesActions";
 
 import { GlobalStyle, ButtonSpan } from "../../styles";
 
-const Notes = ({auth, notes, getUserNotes, errors}) => {
+const Notes = ({
+  auth,
+  notes,
+  getUserNotes,
+  errors,
+  postNote,
+  deleteNote,
+  editNote,
+}) => {
   const themeState = useTheme();
-  const initialState = JSON.parse(window.localStorage.getItem("notes")) || [
-    {
-      createdOn: new Date(),
-      edit: true,
-    },
-  ];
-  //const [notes, setNotes] = useState(initialState);
-
-  /* useEffect(() => {
-    window.localStorage.setItem("notes", JSON.stringify(notes));
-  }, [notes]); */
 
   const addNote = () => {
-    const tempNotes = [...notes];
-    const result = { createdOn: new Date(), edit: true };
-    tempNotes.push(result);
-    //setNotes(tempNotes);
+    const { user } = auth;
+    const params = {
+      user_id: user.id,
+      body: "# Hello World",
+    };
+    postNote(params).then((res) => {
+      getUserNotes(user.id);
+    });
   };
 
-  const onDelete = (idx) => {
-    const tempNotes = [...notes];
-    tempNotes.splice(idx, 1);
-    //setNotes(tempNotes);
+  const onDelete = (noteId) => {
+    const { user } = auth;
+    deleteNote(noteId).then((res) => {
+      getUserNotes(user.id);
+    });
   };
 
-  const createNotesContainer = () => {
-    return notes.length && notes.map((note, idx) => (
-      <NotesContainer
-        key={note.createdOn}
-        note={note}
-        idx={idx}
-        onDelete={() => onDelete(idx)}
-      />
-    ));
+  const handleEditNote = (noteId, text) => {
+    const { user } = auth;
+    const params = {
+      user_id: user.id,
+      body: text,
+    };
+
+    editNote(noteId, params).then((res) => {
+      getUserNotes(user.id);
+    });
   };
 
   useEffect(() => {
     if (auth && auth.user) {
       const { user } = auth;
-      getUserNotes(user.id)
+      getUserNotes(user.id);
     }
-
-  },[auth, getUserNotes])
+  }, [auth, getUserNotes]);
 
   return (
     <>
@@ -79,7 +85,18 @@ const Notes = ({auth, notes, getUserNotes, errors}) => {
       </button>
       <br />
       <br />
-      {createNotesContainer()}
+      {notes.length &&
+        notes.map((note, idx) => {
+          debugger;
+          return (
+            <NotesContainer
+              key={note._id}
+              note={note}
+              onDelete={() => onDelete(note._id)}
+              handleEditNote={handleEditNote}
+            />
+          );
+        })}
     </>
   );
 };
@@ -87,7 +104,11 @@ const Notes = ({auth, notes, getUserNotes, errors}) => {
 const mapStateToProps = (state) => ({
   notes: state.notes,
   errors: state.errors,
-  auth: state.auth
+  auth: state.auth,
 });
-export default connect(mapStateToProps, { getUserNotes })(Notes);
-
+export default connect(mapStateToProps, {
+  getUserNotes,
+  postNote,
+  deleteNote,
+  editNote,
+})(Notes);

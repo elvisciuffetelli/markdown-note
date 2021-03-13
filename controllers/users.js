@@ -39,7 +39,6 @@ exports.create = async (req, res) => {
   });
 };
 
-
 // @desc Login user and return JWT token
 // @access Public
 exports.login = async (req, res) => {
@@ -71,7 +70,7 @@ exports.login = async (req, res) => {
           payload,
           process.env.SECRET_OR_KEY,
           {
-            expiresIn: 31556926, // 1 year in seconds
+            expiresIn: 86400, // expires in 24 hours
           },
           (err, token) => {
             res.json({

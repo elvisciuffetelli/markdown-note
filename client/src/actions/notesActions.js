@@ -8,13 +8,13 @@ export const setNotes = (notes) => {
   };
 };
 
-// Register User
+// get user notes
 export const getUserNotes = (userId) => (dispatch) => {
   axios
     .get("/api/notes", {
       params: {
-        userId
-      }
+        userId,
+      },
     })
     .then((res) => {
       const { data } = res;
@@ -27,4 +27,34 @@ export const getUserNotes = (userId) => (dispatch) => {
         payload: err.response.data,
       })
     );
+};
+
+// post a note
+export const postNote = (params) => (dispatch) => {
+  return axios.post("/api/notes", params).catch((err) =>
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    })
+  );
+};
+
+// deleteNote a note
+export const deleteNote = (noteId) => (dispatch) => {
+  return axios.delete(`/api/notes/${noteId}`).catch((err) =>
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    })
+  );
+};
+
+// edit a note
+export const editNote = (noteId, params) => (dispatch) => {
+  return axios.put(`/api/notes/${noteId}`, params).catch((err) =>
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    })
+  );
 };

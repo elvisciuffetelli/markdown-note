@@ -87,7 +87,6 @@ const Notes = ({
       <br />
       {notes.length &&
         notes.map((note, idx) => {
-          debugger;
           return (
             <NotesContainer
               key={note._id}

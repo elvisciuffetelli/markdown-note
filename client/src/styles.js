@@ -64,7 +64,7 @@ export const Container = styled.div`
   border: 1px solid ${(props) => props.theme.noteBorderColor};
   line-height: 20px;
   flex-direction: column;
-  margin: 10px;
+  margin: 30px;
   width: 90%;
 `;
 

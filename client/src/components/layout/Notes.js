@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useTheme } from "../../ThemeContext";
-import NotesContainer from "../../NotesContainer";
+import NotesContainer from "../notes/NotesContainer";
+import { connect } from "react-redux";
+import { getUserNotes } from "../../actions/notesActions";
+
 import { GlobalStyle, ButtonSpan } from "../../styles";
 
-const Notes = () => {
+const Notes = ({auth, notes, getUserNotes, errors}) => {
   const themeState = useTheme();
   const initialState = JSON.parse(window.localStorage.getItem("notes")) || [
     {
@@ -12,27 +15,27 @@ const Notes = () => {
       edit: true,
     },
   ];
-  const [notes, setNotes] = useState(initialState);
+  //const [notes, setNotes] = useState(initialState);
 
-  useEffect(() => {
+  /* useEffect(() => {
     window.localStorage.setItem("notes", JSON.stringify(notes));
-  }, [notes]);
+  }, [notes]); */
 
   const addNote = () => {
     const tempNotes = [...notes];
     const result = { createdOn: new Date(), edit: true };
     tempNotes.push(result);
-    setNotes(tempNotes);
+    //setNotes(tempNotes);
   };
 
   const onDelete = (idx) => {
     const tempNotes = [...notes];
     tempNotes.splice(idx, 1);
-    setNotes(tempNotes);
+    //setNotes(tempNotes);
   };
 
   const createNotesContainer = () => {
-    return notes.map((note, idx) => (
+    return notes.length && notes.map((note, idx) => (
       <NotesContainer
         key={note.createdOn}
         note={note}
@@ -41,6 +44,14 @@ const Notes = () => {
       />
     ));
   };
+
+  useEffect(() => {
+    if (auth && auth.user) {
+      const { user } = auth;
+      getUserNotes(user.id)
+    }
+
+  },[auth, getUserNotes])
 
   return (
     <>
@@ -73,4 +84,10 @@ const Notes = () => {
   );
 };
 
-export default Notes;
+const mapStateToProps = (state) => ({
+  notes: state.notes,
+  errors: state.errors,
+  auth: state.auth
+});
+export default connect(mapStateToProps, { getUserNotes })(Notes);
+

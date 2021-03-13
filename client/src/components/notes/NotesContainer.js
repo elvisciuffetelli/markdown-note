@@ -8,7 +8,7 @@ import {
   NoteHeader,
   StyledTextarea,
   NotePreviewBody,
-} from "./styles";
+} from "../../styles";
 
 function EditContainer({ text, ...props }) {
   return <StyledTextarea defaultValue={text} {...props} />;

@@ -2,6 +2,8 @@
 
 ## A react / Node.js app deployed to Heroku
 
+## Link to the app: <https://markdown-notes-react-node-app.herokuapp.com//>
+
 ### Pushing updates to your production application
 
 As you continue to develop your app, you will want a way to deploy new code to production easily. Heroku makes this very straightforward.

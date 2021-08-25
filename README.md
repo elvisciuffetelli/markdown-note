@@ -1,4 +1,5 @@
-# markdown-note - a React app with login which takes markdown notes and save them to a mongodb cluster
+# Markdown-note
+## a React app with login which takes markdown notes and save them to a mongodb cluster
 
 ## A react / Node.js app deployed to Heroku
 

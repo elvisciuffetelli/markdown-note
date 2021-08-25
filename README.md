@@ -2,7 +2,7 @@
 
 ## A react / Node.js app deployed to Heroku
 
-## Link to the app: <https://markdown-notes-react-node-app.herokuapp.com/>
+## Link to the app (please give it some time since it's a free Heroku dyno): <https://markdown-notes-react-node-app.herokuapp.com/>
 
 ### Pushing updates to your production application
 
